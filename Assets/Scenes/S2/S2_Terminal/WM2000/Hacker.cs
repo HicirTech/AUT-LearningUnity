@@ -54,12 +54,18 @@ public class Hacker : MonoBehaviour {
 
     private void inPassword(string input)
     {
-        Terminal.WriteLine(checkPassWord(input).ToString());
+        if(checkPassWord(input))
+        {
+            this.displayWin();
+        }
+        else{
+            Terminal.WriteLine("Wrong password");
+        }
     }
 
     private bool checkPassWord (string input)
     {
-        return input == password[this.level-1]; 
+        return input == password[UnityEngine.Random.Range(0,password.Length)]; 
     }
     private void inMainMenu(String input)
     {
@@ -86,10 +92,21 @@ public class Hacker : MonoBehaviour {
         Terminal.ClearScreen();
         Terminal.WriteLine("Current Location : [" +this.currentScreen+"]");
         Terminal.WriteLine("you have choosen level: " + this.level);
-        Terminal.WriteLine("Please enter you password");
-        
+        Terminal.WriteLine("Enter you password, hit: " +("pass"+UnityEngine.Random.Range(0,password.Length)).Anagram());
     }
 
+    private void displayWin()
+    {
+        this.currentScreen=Screen.Win;
+        Terminal.ClearScreen();
+        this.showReward();
+    }
+    private void showReward()
+    {
+        Terminal.WriteLine("Well done");
+        Terminal.WriteLine("you passed level "+this.level);
+        Terminal.WriteLine("Type [Menu] to go back");
+    }
       private bool inputCals(string input)
     {
     
