@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Text;
 
 public class Hacker : MonoBehaviour {
     enum Screen {
@@ -9,6 +10,9 @@ public class Hacker : MonoBehaviour {
         Passowrd,
         Win
     }
+    private string Passowrd1 = "Pass1";
+    private string Passowrd2 = "Pass2";
+    private string Passowrd3 = "Pass3";
     private int level;
     Screen currentScreen;
 	void Start () {
@@ -36,7 +40,7 @@ public class Hacker : MonoBehaviour {
 
     private void OnUserInput(string input)
     {
-        if(input == "menu"||input == "Menu")
+        if(input.ToLower() == "menu")
         {
             this.displayMenu();
         }
@@ -46,15 +50,42 @@ public class Hacker : MonoBehaviour {
         }
         else if(this.currentScreen==Screen.Passowrd)
         {
+            this.inPassword(input);
+        }
+    }
 
+    private void inPassword(string input)
+    {
+        Terminal.WriteLine(checkPassWord(input).ToString());
+    }
+
+    private bool checkPassWord (string input)
+    {
+        switch(this.level)
+        {
+            case 1 :
+                return input == Passowrd1; 
+            case 2:
+                return input == Passowrd2;
+            case 3:
+                return input == Passowrd3;
+            default:
+                return false;
         }
     }
     private void inMainMenu(String input)
     {
         try
-        {
-            this.level=int.Parse(input);
-            gamerStart();
+        {   if(1<=int.Parse(input)&&int.Parse(input)<=3)
+            {
+                this.level=int.Parse(input);
+                gamerStart();
+            }else
+            {
+                Terminal.WriteLine("Do not have this level");
+                Terminal.WriteLine("please input again");
+            }
+
         }catch(System.FormatException)
         {
             Terminal.WriteLine("you are not inputing number");
@@ -67,6 +98,7 @@ public class Hacker : MonoBehaviour {
         Terminal.WriteLine("Current Location : [" +this.currentScreen+"]");
         Terminal.WriteLine("you have choosen level: " + this.level);
         Terminal.WriteLine("Please enter you password");
+        
     }
 
       private bool inputCals(string input)
