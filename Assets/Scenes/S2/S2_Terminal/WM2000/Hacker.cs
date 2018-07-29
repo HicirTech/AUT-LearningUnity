@@ -10,9 +10,7 @@ public class Hacker : MonoBehaviour {
         Passowrd,
         Win
     }
-    private string Passowrd1 = "Pass1";
-    private string Passowrd2 = "Pass2";
-    private string Passowrd3 = "Pass3";
+    private String[] password = {"pass1","pass2","pass3"};
     private int level;
     Screen currentScreen;
 	void Start () {
@@ -61,17 +59,7 @@ public class Hacker : MonoBehaviour {
 
     private bool checkPassWord (string input)
     {
-        switch(this.level)
-        {
-            case 1 :
-                return input == Passowrd1; 
-            case 2:
-                return input == Passowrd2;
-            case 3:
-                return input == Passowrd3;
-            default:
-                return false;
-        }
+        return input == password[this.level-1]; 
     }
     private void inMainMenu(String input)
     {
@@ -95,6 +83,7 @@ public class Hacker : MonoBehaviour {
     private void gamerStart()
     {
         this.currentScreen=Screen.Passowrd;
+        Terminal.ClearScreen();
         Terminal.WriteLine("Current Location : [" +this.currentScreen+"]");
         Terminal.WriteLine("you have choosen level: " + this.level);
         Terminal.WriteLine("Please enter you password");
