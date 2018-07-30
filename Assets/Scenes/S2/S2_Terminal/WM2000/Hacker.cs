@@ -107,7 +107,7 @@ public class Hacker : MonoBehaviour {
         Terminal.WriteLine("you passed level "+this.level);
         Terminal.WriteLine("Type [Menu] to go back");
     }
-      private bool inputCals(string input)
+    private bool inputCals(string input)
     {
     
         return input=="1"?true:false;
