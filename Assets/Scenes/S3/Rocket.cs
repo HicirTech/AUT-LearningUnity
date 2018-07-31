@@ -5,17 +5,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour {
+	private enum State{live,die,wait};
 	[SerializeField]private float rcsThrust = 150f;
 	[SerializeField]private float mainThrust = 1000f;
 	private Rigidbody rigidbody;
 	private AudioSource audioSource;
-	Vector3 rotate;
-	Vector3 thrust;
+	private Vector3 rotate;
+	private Vector3 thrust;
     // Use this for initialization
 
-	
-	private enum State{live,die,wait};
 	private  State state;	
+	
 
     void Start () {
 		state=State.live;
@@ -27,34 +27,46 @@ public class Rocket : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Rotate();
-		Thrust();
-		
+	
+		processInput();
+	}
+	private void processInput()
+	{
+		if(this.state==State.live)
+		{
+			Rotate();
+			Thrust();
+		}
+		else{
+			audioSource.Stop();
+		}
 	}
 
 	private void OnCollisionEnter(Collision collision)
 	{
+		if(state!=State.live)
+		{
+			return;
+		}
 		switch(collision.gameObject.tag)
 		{
 			case "Friendly":
 				break;
 			case "Finish":
 				state=State.wait;
-				Invoke("loadLevel1",2f);
-				//nextLevel(1);
+				Invoke("LoadLevel1",1f);
 				break;
 			default:
 				state=State.die;
-				Invoke("loadLevel0",2f);
-				//nextLevel(0);
+				Invoke("LoadLevel0",1f);
 				break;
 		}	
 	}	
-	private static void loadLevel0()
+	 void LoadLevel0()
 	{
 		SceneManager.LoadScene(0);
 	}
-	private static void loadLevel1()
+	 void LoadLevel1()
 	{
 		SceneManager.LoadScene(1);
 	}
@@ -62,15 +74,11 @@ public class Rocket : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.A))
         {
-            //print("lefe");
-			//float rotateSpeed = rcsThrust*Time.deltaTime;
-            transform.Rotate(rotate);
+			transform.Rotate(rotate);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            //	print("right");
-			//float rotateSpeed = rcsThrust*Time.deltaTime;
-            transform.Rotate(-rotate);
+			transform.Rotate(-rotate);
         }
 
     }
