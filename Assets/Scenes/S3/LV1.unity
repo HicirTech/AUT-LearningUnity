@@ -487,6 +487,11 @@ Prefab:
       propertyPath: m_Name
       value: Rocket ship
       objectReference: {fileID: 0}
+    - target: {fileID: 114195542686333444, guid: d639b1d12851bef44a5f74b9e53c0978,
+        type: 2}
+      propertyPath: mainThrust
+      value: 800
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d639b1d12851bef44a5f74b9e53c0978, type: 2}
   m_IsPrefabAsset: 0

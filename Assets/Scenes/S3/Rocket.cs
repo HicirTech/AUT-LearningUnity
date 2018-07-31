@@ -1,20 +1,26 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour {
-	private enum State{live,die,wait};
-	[SerializeField]private float rcsThrust = 150f;
-	[SerializeField]private float mainThrust = 1000f;
-	private Rigidbody rigidbody;
-	private AudioSource audioSource;
-	private Vector3 rotate;
-	private Vector3 thrust;
+	 enum State{live,die,wait};
+	 AudioSource audioSource;
+	[SerializeField] float rcsThrust = 100f;
+	[SerializeField] float mainThrust = 100f;
+	
+	[SerializeField] AudioClip engine;
+	[SerializeField] AudioClip death;
+	[SerializeField] AudioClip success;
+	[SerializeField] ParticleSystem running;
+	[SerializeField] ParticleSystem diePart;
+	[SerializeField] ParticleSystem winPart;
+
+	 Rigidbody rigidbody;
+	
+	 Vector3 rotate;
+	 Vector3 thrust;
     // Use this for initialization
 
-	private  State state;	
+	  State state;	
 	
 
     void Start () {
@@ -23,23 +29,22 @@ public class Rocket : MonoBehaviour {
 		this.thrust=Vector3.up*(this.mainThrust*Time.deltaTime);
 		this.rigidbody=GetComponent<Rigidbody>();
 		this.audioSource = GetComponent<AudioSource>();
+	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-		processInput();
+		
+		if(this.state==State.live)
+		{
+			this.processInput();	
+		}
 	}
 	private void processInput()
 	{
-		if(this.state==State.live)
-		{
-			Rotate();
-			Thrust();
-		}
-		else{
-			audioSource.Stop();
-		}
+		ResopondToRotate();
+		RespondToThrust();
+		
 	}
 
 	private void OnCollisionEnter(Collision collision)
@@ -50,27 +55,44 @@ public class Rocket : MonoBehaviour {
 		}
 		switch(collision.gameObject.tag)
 		{
-			case "Friendly":
+			case "Friendly":	
 				break;
 			case "Finish":
-				state=State.wait;
-				Invoke("LoadLevel1",1f);
+				playWin();
 				break;
 			default:
-				state=State.die;
-				Invoke("LoadLevel0",1f);
+				playDie();
 				break;
 		}	
 	}	
-	 void LoadLevel0()
+	private	void playWin()
+	{
+		state=State.wait;
+		running.Stop();
+		winPart.Play();
+		audioSource.Stop();
+        audioSource.PlayOneShot(success);
+		Invoke("LoadLevel1",1f);
+		
+	}
+	private void playDie()
+	{
+		state=State.die;
+		running.Stop();
+		diePart.Play();
+		audioSource.Stop();
+		audioSource.PlayOneShot(death);
+		Invoke("LoadLevel0",1f);	
+	}
+	private void LoadLevel0()
 	{
 		SceneManager.LoadScene(0);
 	}
-	 void LoadLevel1()
+	private void LoadLevel1()
 	{
 		SceneManager.LoadScene(1);
 	}
-    private void Rotate()
+    private void ResopondToRotate()
     {
         if (Input.GetKey(KeyCode.A))
         {
@@ -83,22 +105,23 @@ public class Rocket : MonoBehaviour {
 
     }
 
-    private void Thrust()
+    private void RespondToThrust()
     {
 		rigidbody.freezeRotation = true;
 	
         if (Input.GetKey(KeyCode.Space))
         {
-            //print("space");
             this.rigidbody.AddRelativeForce(thrust);
 
             if (!this.audioSource.isPlaying)
             {
-                this.audioSource.Play();
+                this.audioSource.PlayOneShot(this.engine);
             }
+			running.Play();
         }
         else
         {
+			this.running.Stop();
             this.audioSource.Stop();
         }
 		rigidbody.freezeRotation=false;
