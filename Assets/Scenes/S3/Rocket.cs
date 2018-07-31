@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour {
 	[SerializeField]private float rcsThrust = 150f;
@@ -11,7 +12,13 @@ public class Rocket : MonoBehaviour {
 	Vector3 rotate;
 	Vector3 thrust;
     // Use this for initialization
+
+	
+	private enum State{live,die,wait};
+	private  State state;	
+
     void Start () {
+		state=State.live;
 		this.rotate = Vector3.forward*(this.rcsThrust*Time.deltaTime);
 		this.thrust=Vector3.up*(this.mainThrust*Time.deltaTime);
 		this.rigidbody=GetComponent<Rigidbody>();
@@ -24,20 +31,32 @@ public class Rocket : MonoBehaviour {
 		Thrust();
 		
 	}
+
 	private void OnCollisionEnter(Collision collision)
 	{
 		switch(collision.gameObject.tag)
 		{
 			case "Friendly":
-				print("Collided");
 				break;
-			case "Fuel":
-				print("Fuel");
+			case "Finish":
+				state=State.wait;
+				Invoke("loadLevel1",2f);
+				//nextLevel(1);
 				break;
 			default:
-				print("die");
+				state=State.die;
+				Invoke("loadLevel0",2f);
+				//nextLevel(0);
 				break;
 		}	
+	}	
+	private static void loadLevel0()
+	{
+		SceneManager.LoadScene(0);
+	}
+	private static void loadLevel1()
+	{
+		SceneManager.LoadScene(1);
 	}
     private void Rotate()
     {
