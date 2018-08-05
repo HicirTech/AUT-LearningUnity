@@ -2,10 +2,10 @@
 using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour {
-<<<<<<< HEAD
-=======
 	 enum State{live,die,wait};
-	 AudioSource audioSource;
+	AudioSource audioSource;
+	[SerializeField] [Range(0,7)]static int levelCount=0;
+	[SerializeField] bool collisionEnable = true ;
 	[SerializeField] float rcsThrust = 100f;
 	[SerializeField] float mainThrust = 100f;
 	[SerializeField] float levelDelay =2f;
@@ -15,70 +15,52 @@ public class Rocket : MonoBehaviour {
 	[SerializeField] ParticleSystem running;
 	[SerializeField] ParticleSystem diePart;
 	[SerializeField] ParticleSystem winPart;
->>>>>>> parent of 6d897e5... Day 7 on Unity
 
-	private AudioSource audioSource;
-	[SerializeField] [Range(0,7)] private static int levelCount=0;
-	[SerializeField] private bool collisionEnable = true ;
-	[SerializeField] private float rcsThrust = 100f;
-	[SerializeField] private float mainThrust = 100f;
-	[SerializeField] private float levelDelay =2f;
-	[SerializeField] private AudioClip engine;
-	[SerializeField] private AudioClip death;
-	[SerializeField] private AudioClip success;
-	[SerializeField] private ParticleSystem running;
-	[SerializeField] private ParticleSystem diePart;
-	[SerializeField] private ParticleSystem winPart;
-	private Rigidbody rigidbody;
- 	private Vector3 rotate;
-	private Vector3 thrust;
-	private bool isAlive;	
+	 Rigidbody rigidbody;
 	
-    void Start () {
-		this.isAlive=true;
-		this.getReady();
-		//this.rigidbody=GetComponent<Rigidbody>();
-		//this.audioSource = GetComponent<AudioSource>();
-	}
+	 Vector3 rotate;
+	 Vector3 thrust;
+    // Use this for initialization
 
-	void Update () {		
-		if(this.isAlive)
-			this.processInput();	
-	}
-	private void getVetctorReady()
-	{
+	  State state;	
+	
+
+    void Start () {
+		state=State.live;
 		this.rotate = Vector3.forward*(this.rcsThrust*Time.deltaTime);
 		this.thrust=Vector3.up*(this.mainThrust*Time.deltaTime);
+		this.rigidbody=GetComponent<Rigidbody>();
+		this.audioSource = GetComponent<AudioSource>();
+	
 	}
-	private void getReady()
-	{
-		this.getVetctorReady();
-		this.getRockReady();
+	
+	// Update is called once per frame
+	void Update () {
+		
+		if(this.state==State.live)
+		{
+			this.processInput();	
+		}
 	}
 	private void processInput()
 	{
-<<<<<<< HEAD
-		this.ResopondToRotate();
-		this.RespondToThrust();
+		ResopondToRotate();
+		RespondToThrust();
 		if(Debug.isDebugBuild)
-			this.debugkey();
-	}
-	private void getRockReady()
-	{
-		this.rigidbody=GetComponent<Rigidbody>();
-		this.audioSource = GetComponent<AudioSource>();
+				debugkey();
 	}
 
 	private void debugkey()
 	{
-		this.debugL();
-		this.debugC();
+		debugL();
+		debugC();
 	}
 	private void debugL()
 	{
 		if(Input.GetKey(KeyCode.L))
 		{
-			//levelCount++;
+			levelCount++;
+			//audioSource.PlayOneShot(success);
 			this.LoadLevel();
 		}
 	}
@@ -86,18 +68,14 @@ public class Rocket : MonoBehaviour {
 	{
 		if(Input.GetKey(KeyCode.C))
 		{
+		//	audioSource.PlayOneShot(success);
 			this.collisionEnable=!this.collisionEnable;
 		}
-=======
-		ResopondToRotate();
-		RespondToThrust();
-		
-	}
->>>>>>> parent of 6d897e5... Day 7 on Unity
 
+	}
 	private void OnCollisionEnter(Collision collision)
 	{
-		if(isAlive!=true)
+		if(state!=State.live)
 		{
 			return;
 		}
@@ -106,44 +84,28 @@ public class Rocket : MonoBehaviour {
 			case "Friendly":	
 				break;
 			case "Finish":
-				this.audioSource.PlayOneShot(this.success);
-				this.playWin();
+				playWin();
 				break;
 			default:
-<<<<<<< HEAD
 				if(this.collisionEnable)
 				{
-					this.playDie();
+					playDie();
 				}
-=======
-				playDie();
->>>>>>> parent of 6d897e5... Day 7 on Unity
 				break;
 		}	
 	}	
 	private	void playWin()
 	{
-<<<<<<< HEAD
-		this.running.Stop();
-		this.winPart.Play();
-		this.audioSource.Stop();
-		Invoke("LoadLevel",this.levelDelay);
-	}
-	private void playDie()
-	{
-		this.isAlive=!isAlive;
-		this.running.Stop();
-		this.diePart.Play();
-		this.audioSource.Stop();
-		this.audioSource.PlayOneShot(this.death);
-		Invoke("LoadLevel",levelDelay);	
-=======
 		state=State.wait;
+		if(levelCount!=7)
+			levelCount++;
+		else
+			levelCount=0;
 		running.Stop();
 		winPart.Play();
 		audioSource.Stop();
         audioSource.PlayOneShot(success);
-		Invoke("LoadLevel1",levelDelay);
+		Invoke("LoadLevel",levelDelay);
 		
 	}
 	private void playDie()
@@ -153,45 +115,28 @@ public class Rocket : MonoBehaviour {
 		diePart.Play();
 		audioSource.Stop();
 		audioSource.PlayOneShot(death);
-		Invoke("LoadLevel0",levelDelay);	
->>>>>>> parent of 6d897e5... Day 7 on Unity
+		Invoke("LoadLevel",levelDelay);	
 	}
-	private void LoadLevel0()
+	private void LoadLevel()
 	{
-<<<<<<< HEAD
-		if(this.isAlive)
-		{
-			if(levelCount<=7)
-				levelCount++;		
-			else
-				levelCount=0;
-		}
 		SceneManager.LoadScene(levelCount);
-=======
-		SceneManager.LoadScene(0);
-	}
-	private void LoadLevel1()
-	{
-		SceneManager.LoadScene(1);
->>>>>>> parent of 6d897e5... Day 7 on Unity
 	}
     private void ResopondToRotate()
     {
-		this.rigidbody.angularVelocity=Vector3.zero;
-    	this.codeProcess();
+        if (Input.GetKey(KeyCode.A))
+        {
+			transform.Rotate(rotate);
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+			transform.Rotate(-rotate);
+        }
 
     }
-	private void codeProcess()
-	{
-		if (Input.GetKey(KeyCode.A))
-			transform.Rotate(rotate);
-        else if (Input.GetKey(KeyCode.D))
-			transform.Rotate(-rotate);
-	}
 
     private void RespondToThrust()
     {
-		this.rigidbody.freezeRotation = true;
+		rigidbody.freezeRotation = true;
 	
         if (Input.GetKey(KeyCode.Space))
         {
@@ -201,22 +146,19 @@ public class Rocket : MonoBehaviour {
             {
                 this.audioSource.PlayOneShot(this.engine);
             }
-			this.running.Play();
+			running.Play();
         }
         else
         {
 			this.running.Stop();
             this.audioSource.Stop();
         }
-		this.rigidbody.freezeRotation=false;
+		rigidbody.freezeRotation=false;
     }
 
 }
-<<<<<<< HEAD
-/* code Rubbish bin
+/*
 
-
-	private enum State{live,die,wait};
 	private void LoadLevel0()
 	{
 		SceneManager.LoadScene(0);
@@ -226,5 +168,3 @@ public class Rocket : MonoBehaviour {
 		SceneManager.LoadScene(1);
 	}
  */
-=======
->>>>>>> parent of 6d897e5... Day 7 on Unity
