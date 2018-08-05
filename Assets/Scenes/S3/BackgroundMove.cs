@@ -19,8 +19,7 @@ public class BackgroundMove : MonoBehaviour {
 		const float tau = Mathf.PI*2f;
 		float sinWave=Mathf.Sin(cycle*tau);
 		moveFactor = sinWave;
-		print(sinWave);
-			Vector3 offset = moveVector*moveFactor;
-			transform.position = startPos+offset;
+		Vector3 offset = moveVector*moveFactor;
+		transform.position = startPos+offset;
 	}
 }

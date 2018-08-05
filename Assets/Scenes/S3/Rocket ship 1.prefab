@@ -551,7 +551,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 54ad7ce77e7ce3d4d83ca01b9ae3f0fa, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -722,6 +722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a41c84907e38949857f80a1daa0362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionEnable: 1
   rcsThrust: 150
   mainThrust: 800
   levelDelay: 2

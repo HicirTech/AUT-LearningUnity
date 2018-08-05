@@ -21,8 +21,10 @@ public class Rocket : MonoBehaviour {
 	private bool isAlive;	
 	
     void Start () {
-		isAlive=true;
+		this.isAlive=true;
 		this.getReady();
+		//this.rigidbody=GetComponent<Rigidbody>();
+		//this.audioSource = GetComponent<AudioSource>();
 	}
 
 	void Update () {		
@@ -34,19 +36,19 @@ public class Rocket : MonoBehaviour {
 		this.rotate = Vector3.forward*(this.rcsThrust*Time.deltaTime);
 		this.thrust=Vector3.up*(this.mainThrust*Time.deltaTime);
 	}
-		private void getReady()
+	private void getReady()
 	{
 		this.getVetctorReady();
 		this.getRockReady();
 	}
 	private void processInput()
 	{
-		ResopondToRotate();
-		RespondToThrust();
+		this.ResopondToRotate();
+		this.RespondToThrust();
 		if(Debug.isDebugBuild)
-			debugkey();
+			this.debugkey();
 	}
-		private void getRockReady()
+	private void getRockReady()
 	{
 		this.rigidbody=GetComponent<Rigidbody>();
 		this.audioSource = GetComponent<AudioSource>();
@@ -54,8 +56,8 @@ public class Rocket : MonoBehaviour {
 
 	private void debugkey()
 	{
-		debugL();
-		debugC();
+		this.debugL();
+		this.debugC();
 	}
 	private void debugL()
 	{
@@ -84,31 +86,31 @@ public class Rocket : MonoBehaviour {
 			case "Friendly":	
 				break;
 			case "Finish":
-				playWin();
+				this.audioSource.PlayOneShot(this.success);
+				this.playWin();
 				break;
 			default:
 				if(this.collisionEnable)
 				{
-					playDie();
+					this.playDie();
 				}
 				break;
 		}	
 	}	
 	private	void playWin()
 	{
-		running.Stop();
-		winPart.Play();
-		audioSource.Stop();
-        audioSource.PlayOneShot(success);
-		Invoke("LoadLevel",levelDelay);
+		this.running.Stop();
+		this.winPart.Play();
+		this.audioSource.Stop();
+		Invoke("LoadLevel",this.levelDelay);
 	}
 	private void playDie()
 	{
-		isAlive=!isAlive;
-		running.Stop();
-		diePart.Play();
-		audioSource.Stop();
-		audioSource.PlayOneShot(death);
+		this.isAlive=!isAlive;
+		this.running.Stop();
+		this.diePart.Play();
+		this.audioSource.Stop();
+		this.audioSource.PlayOneShot(this.death);
 		Invoke("LoadLevel",levelDelay);	
 	}
 	private void LoadLevel()
@@ -138,7 +140,7 @@ public class Rocket : MonoBehaviour {
 
     private void RespondToThrust()
     {
-		rigidbody.freezeRotation = true;
+		this.rigidbody.freezeRotation = true;
 	
         if (Input.GetKey(KeyCode.Space))
         {
@@ -148,14 +150,14 @@ public class Rocket : MonoBehaviour {
             {
                 this.audioSource.PlayOneShot(this.engine);
             }
-			running.Play();
+			this.running.Play();
         }
         else
         {
 			this.running.Stop();
             this.audioSource.Stop();
         }
-		rigidbody.freezeRotation=false;
+		this.rigidbody.freezeRotation=false;
     }
 
 }
