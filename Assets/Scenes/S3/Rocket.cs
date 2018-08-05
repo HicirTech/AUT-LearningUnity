@@ -3,7 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour {
 	 enum State{live,die,wait};
-	 AudioSource audioSource;
+	AudioSource audioSource;
+	[SerializeField] [Range(0,7)]static int levelCount=0;
+	[SerializeField] bool collisionEnable = true ;
 	[SerializeField] float rcsThrust = 100f;
 	[SerializeField] float mainThrust = 100f;
 	[SerializeField] float levelDelay =2f;
@@ -44,9 +46,33 @@ public class Rocket : MonoBehaviour {
 	{
 		ResopondToRotate();
 		RespondToThrust();
-		
+		if(Debug.isDebugBuild)
+				debugkey();
 	}
 
+	private void debugkey()
+	{
+		debugL();
+		debugC();
+	}
+	private void debugL()
+	{
+		if(Input.GetKey(KeyCode.L))
+		{
+			levelCount++;
+			//audioSource.PlayOneShot(success);
+			this.LoadLevel();
+		}
+	}
+	private void debugC()
+	{
+		if(Input.GetKey(KeyCode.C))
+		{
+		//	audioSource.PlayOneShot(success);
+			this.collisionEnable=!this.collisionEnable;
+		}
+
+	}
 	private void OnCollisionEnter(Collision collision)
 	{
 		if(state!=State.live)
@@ -61,18 +87,25 @@ public class Rocket : MonoBehaviour {
 				playWin();
 				break;
 			default:
-				playDie();
+				if(this.collisionEnable)
+				{
+					playDie();
+				}
 				break;
 		}	
 	}	
 	private	void playWin()
 	{
 		state=State.wait;
+		if(levelCount!=7)
+			levelCount++;
+		else
+			levelCount=0;
 		running.Stop();
 		winPart.Play();
 		audioSource.Stop();
         audioSource.PlayOneShot(success);
-		Invoke("LoadLevel1",levelDelay);
+		Invoke("LoadLevel",levelDelay);
 		
 	}
 	private void playDie()
@@ -82,15 +115,11 @@ public class Rocket : MonoBehaviour {
 		diePart.Play();
 		audioSource.Stop();
 		audioSource.PlayOneShot(death);
-		Invoke("LoadLevel0",levelDelay);	
+		Invoke("LoadLevel",levelDelay);	
 	}
-	private void LoadLevel0()
+	private void LoadLevel()
 	{
-		SceneManager.LoadScene(0);
-	}
-	private void LoadLevel1()
-	{
-		SceneManager.LoadScene(1);
+		SceneManager.LoadScene(levelCount);
 	}
     private void ResopondToRotate()
     {
@@ -128,3 +157,14 @@ public class Rocket : MonoBehaviour {
     }
 
 }
+/*
+
+	private void LoadLevel0()
+	{
+		SceneManager.LoadScene(0);
+	}
+	private void LoadLevel1()
+	{
+		SceneManager.LoadScene(1);
+	}
+ */
