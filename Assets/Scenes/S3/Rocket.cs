@@ -2,6 +2,20 @@
 using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour {
+<<<<<<< HEAD
+=======
+	 enum State{live,die,wait};
+	 AudioSource audioSource;
+	[SerializeField] float rcsThrust = 100f;
+	[SerializeField] float mainThrust = 100f;
+	[SerializeField] float levelDelay =2f;
+	[SerializeField] AudioClip engine;
+	[SerializeField] AudioClip death;
+	[SerializeField] AudioClip success;
+	[SerializeField] ParticleSystem running;
+	[SerializeField] ParticleSystem diePart;
+	[SerializeField] ParticleSystem winPart;
+>>>>>>> parent of 6d897e5... Day 7 on Unity
 
 	private AudioSource audioSource;
 	[SerializeField] [Range(0,7)] private static int levelCount=0;
@@ -43,6 +57,7 @@ public class Rocket : MonoBehaviour {
 	}
 	private void processInput()
 	{
+<<<<<<< HEAD
 		this.ResopondToRotate();
 		this.RespondToThrust();
 		if(Debug.isDebugBuild)
@@ -73,8 +88,13 @@ public class Rocket : MonoBehaviour {
 		{
 			this.collisionEnable=!this.collisionEnable;
 		}
-
+=======
+		ResopondToRotate();
+		RespondToThrust();
+		
 	}
+>>>>>>> parent of 6d897e5... Day 7 on Unity
+
 	private void OnCollisionEnter(Collision collision)
 	{
 		if(isAlive!=true)
@@ -90,15 +110,20 @@ public class Rocket : MonoBehaviour {
 				this.playWin();
 				break;
 			default:
+<<<<<<< HEAD
 				if(this.collisionEnable)
 				{
 					this.playDie();
 				}
+=======
+				playDie();
+>>>>>>> parent of 6d897e5... Day 7 on Unity
 				break;
 		}	
 	}	
 	private	void playWin()
 	{
+<<<<<<< HEAD
 		this.running.Stop();
 		this.winPart.Play();
 		this.audioSource.Stop();
@@ -112,9 +137,28 @@ public class Rocket : MonoBehaviour {
 		this.audioSource.Stop();
 		this.audioSource.PlayOneShot(this.death);
 		Invoke("LoadLevel",levelDelay);	
+=======
+		state=State.wait;
+		running.Stop();
+		winPart.Play();
+		audioSource.Stop();
+        audioSource.PlayOneShot(success);
+		Invoke("LoadLevel1",levelDelay);
+		
 	}
-	private void LoadLevel()
+	private void playDie()
 	{
+		state=State.die;
+		running.Stop();
+		diePart.Play();
+		audioSource.Stop();
+		audioSource.PlayOneShot(death);
+		Invoke("LoadLevel0",levelDelay);	
+>>>>>>> parent of 6d897e5... Day 7 on Unity
+	}
+	private void LoadLevel0()
+	{
+<<<<<<< HEAD
 		if(this.isAlive)
 		{
 			if(levelCount<=7)
@@ -123,6 +167,13 @@ public class Rocket : MonoBehaviour {
 				levelCount=0;
 		}
 		SceneManager.LoadScene(levelCount);
+=======
+		SceneManager.LoadScene(0);
+	}
+	private void LoadLevel1()
+	{
+		SceneManager.LoadScene(1);
+>>>>>>> parent of 6d897e5... Day 7 on Unity
 	}
     private void ResopondToRotate()
     {
@@ -161,6 +212,7 @@ public class Rocket : MonoBehaviour {
     }
 
 }
+<<<<<<< HEAD
 /* code Rubbish bin
 
 
@@ -174,3 +226,5 @@ public class Rocket : MonoBehaviour {
 		SceneManager.LoadScene(1);
 	}
  */
+=======
+>>>>>>> parent of 6d897e5... Day 7 on Unity
