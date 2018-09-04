@@ -11,6 +11,10 @@ public class Player : MonoBehaviour
     [SerializeField] float controlPitchFactor = -20f; 
     [SerializeField] float positionYawFactor = 5f; 
     [SerializeField] float controlRollFactor = -30f; 
+   
+    
+    
+    
     float xThrow;
     float yThrow;
     //Rigidbody rigidbody;
@@ -23,6 +27,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
+        //fun();
         rotate();
     }
     private void rotate()
@@ -39,6 +44,7 @@ public class Player : MonoBehaviour
     {
         xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
         yThrow = CrossPlatformInputManager.GetAxis("Vertical");
+       
         float xOffSet = xThrow * moveSpeed * Time.deltaTime;
         float yOffSet = yThrow * moveSpeed * Time.deltaTime;
         float rowY = Mathf.Clamp(transform.localPosition.y + yOffSet, -2.5f, +2.5f);
@@ -46,4 +52,7 @@ public class Player : MonoBehaviour
         transform.localPosition = new Vector3(rowX, rowY, transform.localPosition.z);
     }
 
+
 }
+
+

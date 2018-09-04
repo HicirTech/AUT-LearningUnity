@@ -93,6 +93,7 @@ public class Rocket : MonoBehaviour
         Invoke("LoadLevel", levelDelay);
 
     }
+    
     private void playDie()
     {
         state = State.die;
