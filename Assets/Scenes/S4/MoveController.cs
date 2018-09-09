@@ -2,33 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
-public class Player : MonoBehaviour
+public class MoveController : MonoBehaviour
 {
 
     // Use this for initialization
-    [Tooltip("M/s")] [SerializeField] float moveSpeed = 8;
+    [Header("General")]
+    [Tooltip("M/s")] [SerializeField] float ControlSpeed = 8;
     [SerializeField] float positionPitchFactor = -5f; 
     [SerializeField] float controlPitchFactor = -20f; 
     [SerializeField] float positionYawFactor = 5f; 
     [SerializeField] float controlRollFactor = -30f; 
-   
+    
+    private bool isControlEnable =true ;
     
     
     
     float xThrow;
     float yThrow;
-    //Rigidbody rigidbody;
-    void Start()
-    {
-        // this.rigidbody = GetComponent<Rigidbody>();
-    }
+ 
 
-    // Update is called once per frame
+    
     void Update()
     {
-        Move();
+        if(this.isControlEnable)
+        {
+            Move();
         //fun();
-        rotate();
+            rotate();
+        }
     }
     private void rotate()
     {
@@ -45,11 +46,17 @@ public class Player : MonoBehaviour
         xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
         yThrow = CrossPlatformInputManager.GetAxis("Vertical");
        
-        float xOffSet = xThrow * moveSpeed * Time.deltaTime;
-        float yOffSet = yThrow * moveSpeed * Time.deltaTime;
+        float xOffSet = xThrow * ControlSpeed * Time.deltaTime;
+        float yOffSet = yThrow * ControlSpeed * Time.deltaTime;
         float rowY = Mathf.Clamp(transform.localPosition.y + yOffSet, -2.5f, +2.5f);
         float rowX = Mathf.Clamp(transform.localPosition.x + xOffSet, -3.23f, +3.23f);
         transform.localPosition = new Vector3(rowX, rowY, transform.localPosition.z);
+    }
+    public void onPlayerDie()
+    {
+        print("shit!");
+        //death();
+        this.isControlEnable=false;
     }
 
 

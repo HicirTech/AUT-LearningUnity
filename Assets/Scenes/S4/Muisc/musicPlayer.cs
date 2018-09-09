@@ -2,10 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 public class musicPlayer : MonoBehaviour
-{
+{   
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        print(FindObjectsOfType<musicPlayer>().Length);
+        if(FindObjectsOfType<musicPlayer>().Length>1)
+        {
+            print("Distory");
+            Destroy(gameObject);
+        }
+        else
+        {
+             print("not Distory");
+            DontDestroyOnLoad(gameObject);
+        }
     }
+    
 }
  
