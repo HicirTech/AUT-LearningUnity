@@ -20,7 +20,7 @@ public class ScroreBoard : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		updateScore();
+		//updateScore();
 	}
 	
 }

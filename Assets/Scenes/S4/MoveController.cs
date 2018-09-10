@@ -12,6 +12,9 @@ public class MoveController : MonoBehaviour
     [SerializeField] float controlPitchFactor = -20f; 
     [SerializeField] float positionYawFactor = 5f; 
     [SerializeField] float controlRollFactor = -30f; 
+
+    [SerializeField] GameObject[] Guns;
+
     
     private bool isControlEnable =true ;
     
@@ -29,6 +32,7 @@ public class MoveController : MonoBehaviour
             Move();
         //fun();
             rotate();
+            processFiring();
         }
     }
     private void rotate()
@@ -52,9 +56,27 @@ public class MoveController : MonoBehaviour
         float rowX = Mathf.Clamp(transform.localPosition.x + xOffSet, -3.23f, +3.23f);
         transform.localPosition = new Vector3(rowX, rowY, transform.localPosition.z);
     }
+
+    void processFiring()
+    {
+        if(CrossPlatformInputManager.GetButton("Fire"))
+        {
+            foreach(GameObject e in Guns)
+            {
+                e.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach(GameObject e in Guns)
+            {
+                e.SetActive(false);
+            }
+        }
+    }
     public void onPlayerDie()
     {
-        print("shit!");
+       // print("shit!");
         //death();
         this.isControlEnable=false;
     }

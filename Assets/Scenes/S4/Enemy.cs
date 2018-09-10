@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour {
 	[SerializeField] GameObject deathFX;
 	[SerializeField] Transform  aferdied;
 	ScroreBoard scroreBoard;
+
+	[SerializeField] int life =3;
 	private void Start()
 	{
 		addcollider(); 
@@ -20,11 +22,19 @@ public class Enemy : MonoBehaviour {
 
 	private void OnParticleCollision(GameObject other)
 	{
-		GameObject fx = Instantiate(deathFX,gameObject.transform.position,Quaternion.identity);
-		fx.transform.parent=aferdied;
-		Destroy(gameObject);
-		this.deathFX.SetActive(true);
-		updateScoreBoard();
+		if(this.life>=0)
+		{
+			this.life-=1;
+			print(gameObject.name + this.life);
+		}
+		else
+		{
+			GameObject fx = Instantiate(deathFX,gameObject.transform.position,Quaternion.identity);
+			fx.transform.parent=aferdied;
+			Destroy(gameObject);
+			this.deathFX.SetActive(true);
+			updateScoreBoard();
+		}
 	}
 	private void updateScoreBoard()
 	{
