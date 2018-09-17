@@ -61,20 +61,23 @@ public class MoveController : MonoBehaviour
     {
         if(CrossPlatformInputManager.GetButton("Fire"))
         {
-            foreach(GameObject e in Guns)
-            {
-                e.SetActive(true);
-            }
+            this.setparticle(true);
         }
         else
         {
-            foreach(GameObject e in Guns)
-            {
-                e.SetActive(false);
-            }
+            this.setparticle(false);
         }
     }
-    public void onPlayerDie()
+
+    void setparticle(bool isFire)
+    {
+        foreach(GameObject e in Guns)
+            {
+                var particles = e.GetComponent<ParticleSystem>().emission;
+                particles.enabled=isFire;
+            }
+    }
+public void onPlayerDie()
     {
        // print("shit!");
         //death();

@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour {
 	[SerializeField] GameObject deathFX;
 	[SerializeField] Transform  aferdied;
 	ScroreBoard scroreBoard;
-
+	ELN eln;
 	[SerializeField] int life =3;
 	private void Start()
 	{
@@ -40,5 +40,8 @@ public class Enemy : MonoBehaviour {
 	{
 		scroreBoard = FindObjectOfType<ScroreBoard>();
 		this.scroreBoard.updateScore();
+		eln = FindObjectOfType<ELN>();
+		eln.updateKill();
+		
 	}
 }
