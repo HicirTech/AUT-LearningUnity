@@ -906,7 +906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1298527263
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2059,6 +2059,11 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!95 &1606189685 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95937269617031184, guid: 366fb4b15465a46428c10b88f1780642,
+    type: 2}
+  m_PrefabInternal: {fileID: 1419255032}
 --- !u!1 &1648487354
 GameObject:
   m_ObjectHideFlags: 0
@@ -2288,6 +2293,7 @@ GameObject:
   - component: {fileID: 1934236257}
   - component: {fileID: 1934236256}
   - component: {fileID: 1934236255}
+  - component: {fileID: 1934236258}
   m_Layer: 0
   m_Name: MasterTimeLine
   m_TagString: Untagged
@@ -2341,6 +2347,8 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: 114560756359621978, guid: f8c63d5cea52589488f1b183c535203a, type: 2}
     value: {fileID: 0}
+  - key: {fileID: 114197789741964096, guid: f8c63d5cea52589488f1b183c535203a, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - 3c2642a3235241e418c67aff9a640c24: {fileID: 1298527262}
@@ -2370,6 +2378,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1934236258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1934236254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9df871f48ed68334db39215e685b53fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  test: {fileID: 1606189685}
+  Track: {fileID: 0}
+  speed: 0.2
+  playableDirector: {fileID: 1934236256}
+  a: {fileID: 0}
 --- !u!1 &1939917579
 GameObject:
   m_ObjectHideFlags: 0
